@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Share</title>
+<title>How to Use PCAN Device | Share</title>
 <link rel="shortcut icon" href="https://zhubeilife.github.io/favicon.ico?v=1559118833139">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -70,34 +70,60 @@
   </div>
 </div>
 
-    
-        
 
-<div class="archives-container">
-  
-    <h2 class="year">2019</h2>
-    
-      
-        <article class="post">
-          <a href="https://zhubeilife.github.io/post/how-to-use-pcan-device">
+        <div class="post-detail">
+          <article class="post">
             <h2 class="post-title">
               How to Use PCAN Device
-              <small>2019-05-29</small>
             </h2>
-          </a>
-        </article>
-      
-    
-  
-</div>
+            <div class="post-info">
+              <time class="post-time">
+                · 2019-05-29 ·
+              </time>
+              
+            </div>
+            
+            <div class="post-content">
+              <h1 id="stm32-can-device">STM32 CAN Device</h1>
+<h2 id="set-can-bit-time">Set Can bit time</h2>
+<p>http://www.bittiming.can-wiki.info/#bxCAN</p>
+<h1 id="how-to-use-pcan-device">How to use PCAN Device</h1>
+<h2 id="installation">Installation</h2>
+<p>After Installation, run 'sudo modprobe pcan' to load the driver module</p>
+<h2 id="usage">USAGE</h2>
+<h3 id="monitor-the-pcan-device">Monitor the PCAN Device</h3>
+<ul>
+<li>'cat /proc/pcan' to see all the PCAN device</li>
+<li>'lspcan -T -t -i' can see info of PCAN device</li>
+<li>'lspcan -T -t -s -f' can refresh the screen every second with a detailed view
+of statistics clllected form all the PCAN device</li>
+<li>'candump -t a canX' to monitor the data</li>
+</ul>
+<h3 id="open-socket-can-device">OPEN Socket Can Device</h3>
+<pre><code class="language-bash"># Open PCAN-USB or PCAN-USB-FD as normal CAN 2.0 module
+sudo ip link set can0 up type can bitrate 1000000
+# Open PCAN-USB-FD as FD with Nominal Bit rate and Data Bit rate
+sudo ip link set canX up type can bitrate 1000000 dbitrate 2000000 fd on 
+# Or Just setting the interface down or up using, must install net-tools to use ifconfig
+ifconfig canX down
+ifconfig canX up
+</code></pre>
+<h3 id="send">Send</h3>
+<pre><code class="language-bash"># Transmit a CAN message with ID 0x123 on canX with 4 data bytes 00 11 22 33
+cansend canX 123#00112233
+# Transmit the same message with CAN FD (##) on canX, select the data bitrate 
+#for the data bytes(BRS flags = 1)
+cansend can1 123##100112233 
+</code></pre>
 
-    
-        <div class="pagination-container">
-  
-  
-</div>
+            </div>
+          </article>
+        </div>
 
-    
+        
+
+        
+
         <div class="site-footer">
   Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
   <a class="rss" href="https://zhubeilife.github.io/atom.xml" target="_blank">RSS</a>
